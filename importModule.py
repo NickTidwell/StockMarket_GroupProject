@@ -12,7 +12,7 @@ from tkinter import *
 
 outdir = 'StockData'
 yf.pdr_override()
-
+global progress
 def createStockPath():
     if not os.path.exists(outdir):
         os.mkdir(outdir)
@@ -35,14 +35,19 @@ def getFortune500Ticker():
     with open("sp500tickers.pickle","wb") as f:
         pickle.dump(tickers,f)
 
-def loadStockList(start, end, Progressbar, root):
-    createStockPath()
+
+def loadStockList(start, end, progressbar, root, label):
     tickers = []
     with open("sp500tickers.pickle", "rb") as f:
         tickers = pickle.load(f)
     x = 0
+    label["text"] = "running..."
     for ticker in tickers:
         loadStock(ticker,start,end)
-        x = x + 1
-        Progressbar['value'] = x
-        root.update_idletasks() 
+        x=x+1
+        progressbar.after(0, progress(x,progressbar))
+        progressbar.update() # Force an update of the GUI
+    label["text"] = "Done."
+
+def progress(val, bar):
+    bar['value'] = val

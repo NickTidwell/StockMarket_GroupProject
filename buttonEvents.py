@@ -14,8 +14,7 @@ def loadStockClicked(txt, start, end):
     displayGrid(txt.get())
 
 def importStockClicked():
-    popUp = importForm.ImportFrame()
-    popUp.mainloop()
+    importForm.ImportFrame()
     
     
 
