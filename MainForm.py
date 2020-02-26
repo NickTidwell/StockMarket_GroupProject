@@ -1,5 +1,5 @@
 from tkinter import *
-from buttonEvents import clicked, loadStockClicked
+import buttonEvents as be
 from functools import partial
 from pandastable import Table
 from tkcalendar import Calendar, DateEntry
@@ -10,24 +10,27 @@ window.geometry('600x400')
 window.title("Python Stock Market")
 
 
-lbl = Label(window, text="Search New Stock")
-startData_lbl = Label(window, text="Pick Start Day")
-endDate_lbl = Label(window, text="Pick End Date")
+lbl_searchText = Label(window, text="Enter Stock To Search: ")
+startData_lbl = Label(window, text="Start Day")
+endDate_lbl = Label(window, text="End Date")
 
-txt = Entry(window, width = 15)
+entry_stock = Entry(window, width = 15)
 
 startCal = DateEntry(window)
 endCal = DateEntry(window)
 
-clicked_w_args = partial(loadStockClicked, txt, startCal, endCal)
-btn = Button(window, text="Search", width=10, command=clicked_w_args)
+click_searchStock = partial(be.loadStockClicked, entry_stock, startCal, endCal)
+btn_searchStock = Button(window, text="Search", width=10, command=click_searchStock)
+
+btn_import500 = Button(window, text="Import Fortune 500", width = 15, command=be.importStockClicked)
 
 startData_lbl.grid(column=0, row=1)
 endDate_lbl.grid(column=0, row=2)
 endCal.grid(column=1, row=2)
 startCal.grid(column=1, row=1)
-lbl.grid(column=0, row=0)
-btn.grid(column=1, row=0)
-txt.grid(column=2, row=0)
+lbl_searchText.grid(column=0, row=0)
+btn_searchStock.grid(column=2, row=0)
+entry_stock.grid(column=1, row=0)
+btn_import500.grid(column=5, row=0)
 
 window.mainloop()

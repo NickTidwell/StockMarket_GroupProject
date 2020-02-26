@@ -1,7 +1,7 @@
 from tkinter import *
 from pandastable import Table
 
-class TestApp(Frame):
+class CreateTable(Frame):
 
         def __init__(self, csvName, master):
             Frame.__init__(self, master)
