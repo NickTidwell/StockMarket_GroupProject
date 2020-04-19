@@ -1,4 +1,4 @@
-# Discover optimal hyperparameters for model
+# Discover optimal hyperparameters for model using grid search
 # Author: Oscar Kosar-Kosarewicz
 
 from keras.wrappers.scikit_learn import KerasRegressor
