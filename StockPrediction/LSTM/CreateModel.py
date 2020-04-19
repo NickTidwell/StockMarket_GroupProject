@@ -18,9 +18,7 @@ def trim_data(x, y, batch_size):
     return x, y
 
 
-def gen_data(stock_name):
-    time_steps_in_batch = 20
-    batch_size = 10
+def gen_data(stock_name, batch_size, time_steps_in_batch):
 
     x_train, y_train, x_temp, y_temp = generate_training_data(stock_name, time_steps_in_batch)
     x_train, y_train = trim_data(x_train, y_train, batch_size)
