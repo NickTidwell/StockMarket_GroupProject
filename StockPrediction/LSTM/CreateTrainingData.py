@@ -24,6 +24,7 @@ def create_timeseries(data, time_steps_in_batch):
 def generate_training_data(stock_name, time_steps_in_batch):
     data_source = f'../../StockData/{stock_name}.csv'
 
+
     data = pd.read_csv(data_source)
     # normalize each column
     data2 = data.iloc[:, 1:]
