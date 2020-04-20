@@ -4,16 +4,16 @@ from functools import partial
 from pandastable import Table
 from tkcalendar import Calendar, DateEntry
 
-
 window = Tk()
 window.geometry('600x400')
 window.title("Python Stock Market")
 
 
-lbl_searchText = Label(window, text="Enter Stock To Display: ")
+lbl_searchText = Label(window, text="Enter Stock To Display: ", width=20, anchor="w")
 startData_lbl = Label(window, text="Start Day")
 endDate_lbl = Label(window, text="End Date")
-lbl_importName = Label(window, text="Enter stock to import")
+lbl_importName = Label(window, text="Enter Stock To Import:", width=20, anchor="w")
+lbl_importStatus = Label(window, text="Status", width=15)
 entry_import = Entry(window, width = 15)
 
 entry_stock = Entry(window, width = 15)
@@ -27,7 +27,10 @@ btn_searchStock = Button(window, text="Display Data", width=10, command=click_se
 click_graph = partial(be.plotStock, entry_stock)
 btn_graph = Button(window, text="Graph Data", width=15, command=click_graph)
 
-click_import = partial(be.importSingleStock, entry_import, startCal, endCal)
+click_predictGraph = partial(be.graphPrediction, entry_stock)
+btn_predictGraph = Button(window, text="Predict Data", width=15, command=click_predictGraph)
+
+click_import = partial(be.importSingleStock, entry_import, startCal, endCal, lbl_importStatus)
 btn_import = Button(window, text="Import", width=10, command=click_import)
 
 btn_import500 = Button(window, text="Import Fortune 500", width = 15, command=be.importStockClicked)
@@ -38,7 +41,8 @@ btn_searchStock.grid(column=2, row=0)
 entry_stock.grid(column=1, row=0)
 btn_import500.grid(column=3, row=2)
 btn_graph.grid(column=3,row=0)
-
+btn_predictGraph.grid(column=4,row=0)
+lbl_importStatus.grid(column=4,row=2)
 
 lbl_importName.grid(column=0,row=2)
 entry_import.grid(column=1,row=2)
