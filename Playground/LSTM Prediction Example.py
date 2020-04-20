@@ -30,8 +30,6 @@ if __name__ == '__main__':
     # Plot predicted stock price
     predicted_line, = ax.plot(prediction_data['Date'], prediction_data['Prediction'])
     predicted_line.set_label('Predicted')
-    print(data.iloc[-1])
-    print(prediction_data.iloc[-1])
 
     # Show Plot
     ax.legend()
