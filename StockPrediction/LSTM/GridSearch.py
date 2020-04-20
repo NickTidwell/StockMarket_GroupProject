@@ -5,6 +5,7 @@ from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.model_selection import ParameterGrid
 from StockPrediction.LSTM.CreateModel import create_model, gen_data
 import pandas as pd
+import statistics
 
 # parameters to test
 stock_name = 'amzn'
@@ -13,7 +14,12 @@ time_steps_in_batch = [5, 10, 20]
 hidden_layers_LSTM = [20, 50, 100]
 hidden_layers_relu = [5, 20]
 dropout = [x * 0.05 for x in range(0, 3)]
-
+"""
+batch_size = [50]
+time_steps_in_batch = [20]
+hidden_layers_LSTM = [100]
+hidden_layers_relu = [20]
+"""
 
 param_grid = ParameterGrid(dict(batch_size=batch_size, time_steps_in_batch=time_steps_in_batch, hidden_layers_LSTM=hidden_layers_LSTM,
                   hidden_layers_relu=hidden_layers_relu, dropout=dropout))
@@ -22,8 +28,10 @@ results = pd.DataFrame()
 for i, kwargs in enumerate(param_grid):
     x_train, y_train, x_validate, y_validate = gen_data(stock_name, kwargs['batch_size'], kwargs['time_steps_in_batch'])
     model = create_model(**kwargs)
-    model.fit(x_train, y_train, epochs=150, batch_size=kwargs['batch_size'], validation_data=(x_validate, y_validate), verbose=0)
-    score = model.evaluate(x_validate, y_validate, batch_size=kwargs['batch_size'])
+    history = model.fit(x_train, y_train, epochs=150, batch_size=kwargs['batch_size'], validation_data=(x_validate, y_validate), verbose=0)
+    #score = model.evaluate(x_validate, y_validate, batch_size=kwargs['batch_size'])
+    loss_history = history.history['val_loss'][50:]
+    score = statistics.mean(loss_history)
     kwargs['score'] = score
     kwargs['index'] = i
     print(i)

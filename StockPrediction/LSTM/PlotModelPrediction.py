@@ -2,26 +2,19 @@
 # Author: Oscar Kosar-Kosarewicz
 
 import matplotlib.pyplot as plt
-import pandas as pd
 from keras.models import load_model
 import numpy as np
+from StockPrediction.LSTM.CreateTrainingData import  trim_data
 
-def trim_data(x, y, batch_size):
-    rows_to_drop = x.shape[0] % batch_size
-    if rows_to_drop > 0:
-        x = x[:-rows_to_drop]
-        y = y[:-rows_to_drop]
-        return x, y
-    return x, y
-
-def plot_prediction(model_path):
+def plot_prediction(model_path, batch_size):
     model = load_model(model_path)
     x = np.load('TestingX.npy')
     y = np.load('TestingY.npy')
     dates = np.load('TestingDates.npy')
-    dates_shifted = dates[:-1]
-    x = x[1:]
-    dates_shifted, x = trim_data(dates_shifted, x, 10)
+    dates_shifted = dates[:]
+    #x = x[1:]
+    x = trim_data(x, batch_size)
+    dates_shifted = trim_data(dates_shifted, batch_size)
 
     title = f'Stock Prediction'
     plt.figure(num=title)
@@ -32,7 +25,7 @@ def plot_prediction(model_path):
     plt.xlabel('Date')
     plt.ylabel(f'Price')
     actual_line, = ax.plot(dates, y)
-    predicted_line, = ax.plot(dates_shifted, model.predict(x, batch_size = 10))
+    predicted_line, = ax.plot(dates_shifted, model.predict(x, batch_size = batch_size))
     actual_line.set_label('Actual')
     predicted_line.set_label('Predicted')
     ax.legend()
@@ -40,4 +33,4 @@ def plot_prediction(model_path):
 
 
 if __name__ == '__main__':
-    plot_prediction('LSTM_model')
+    plot_prediction('LSTM_model', 5)
