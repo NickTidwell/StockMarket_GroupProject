@@ -1,4 +1,4 @@
-# Plots the model loss from file
+ # Plots the model loss from file
 # Author: Oscar Kosar-Kosarewicz
 
 import matplotlib.pyplot as plt

@@ -6,6 +6,10 @@ import csvTable
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import pandas as pd
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib import ticker
+from StockPrediction.LSTM.PredictStock import predict_stocks
 
 def displayGrid(txt):
     dow = Tk()
@@ -18,7 +22,7 @@ def loadStockClicked(txt):
 def importStockClicked():
     importForm.ImportFrame()
 
-def importSingleStock(txt,start,end):
+def importSingleStock(txt,start,end,status):
     loadStock(txt.get(),start.get_date(),end.get_date())
 
 def plotStock(txt):
@@ -38,5 +42,38 @@ def plotStock(txt):
     ax.plot(data['Date'], data[y_value])
     plt.show()
 
-    
+
+
+
+def graphPrediction(txt):
+    # Author Oscar-Kosarewicz
+    # Modified by Nick T
+    # import predictor data into Dataframe
+    stock_name = txt.get()
+    data_source = f'StockData/{stock_name}.csv'
+    data = pd.read_csv(data_source)
+
+    # Calculate predictions
+    prediction_data = predict_stocks(data)
+
+    # Set up plot
+    plt.title(f'{stock_name.upper()} Price Prediction')
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(ticker.MaxNLocator(5))   # number of major ticks
+    ax.xaxis.set_minor_locator(ticker.MaxNLocator(25))  # number of minor ticks
+
+    # Plot actual stock price
+    actual_line, = ax.plot(data['Date'], data['Close'])
+    actual_line.set_label('Actual')
+
+    # Plot predicted stock price
+    predicted_line, = ax.plot(prediction_data['Date'], prediction_data['Prediction'])
+    predicted_line.set_label('Predicted')
+
+    # Show Plot
+    ax.legend()
+    plt.show()
+
 
