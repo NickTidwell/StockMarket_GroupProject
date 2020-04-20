@@ -23,8 +23,6 @@ def create_timeseries(data, time_steps_in_batch):
     for i in range(num_batches):
         x[i] = data.iloc[i:i + time_steps_in_batch, 1:]
         y[i] = data.iloc[i + time_steps_in_batch, index_of_target_variable]
-        print(x[i])
-        print(y[i])
         dates[i] = data.iloc[i + time_steps_in_batch, 0]
     return x, y, dates
 

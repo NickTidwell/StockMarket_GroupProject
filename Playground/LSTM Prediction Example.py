@@ -8,7 +8,7 @@ from StockPrediction.LSTM.PredictStock import predict_stocks
 
 if __name__ == '__main__':
     stock_name='abc'
-    # import predictor data into Datafram
+    # import predictor data into Dataframe
     data_source = f'../StockData/{stock_name}.csv'
     data = pd.read_csv(data_source)
 
@@ -23,14 +23,11 @@ if __name__ == '__main__':
     ax.xaxis.set_major_locator(ticker.MaxNLocator(5))   # number of major ticks
     ax.xaxis.set_minor_locator(ticker.MaxNLocator(25))  # number of minor ticks
 
-    print(type(data['Date'][1]))
-    print(type(prediction_data['Date'][1]))
     # Plot actual stock price
     actual_line, = ax.plot(data['Date'], data['Close'])
     actual_line.set_label('Actual')
 
     # Plot predicted stock price
-    print(prediction_data['Date'])
     predicted_line, = ax.plot(prediction_data['Date'], prediction_data['Prediction'])
     predicted_line.set_label('Predicted')
 

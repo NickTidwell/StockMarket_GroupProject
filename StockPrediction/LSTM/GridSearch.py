@@ -9,11 +9,11 @@ import statistics
 
 # parameters to test
 stock_name = 'amzn'
-batch_size = [5, 10, 20, 50]
-time_steps_in_batch = [5, 10, 20]
+batch_size = [5, 10, 2]
+time_steps_in_batch = [10, 15, 20]
 hidden_layers_LSTM = [20, 50, 100]
-hidden_layers_relu = [5, 20]
-dropout = [x * 0.05 for x in range(0, 3)]
+hidden_layers_relu = [5, 10, 20]
+dropout = [x * 0.05 for x in range(0, 4)]
 """
 batch_size = [50]
 time_steps_in_batch = [20]
@@ -28,7 +28,7 @@ results = pd.DataFrame()
 for i, kwargs in enumerate(param_grid):
     x_train, y_train, x_validate, y_validate = gen_data(stock_name, kwargs['batch_size'], kwargs['time_steps_in_batch'])
     model = create_model(**kwargs)
-    history = model.fit(x_train, y_train, epochs=150, batch_size=kwargs['batch_size'], validation_data=(x_validate, y_validate), verbose=0)
+    history = model.fit(x_train, y_train, epochs=200, batch_size=kwargs['batch_size'], validation_data=(x_validate, y_validate), verbose=0)
     #score = model.evaluate(x_validate, y_validate, batch_size=kwargs['batch_size'])
     loss_history = history.history['val_loss'][50:]
     score = statistics.mean(loss_history)
