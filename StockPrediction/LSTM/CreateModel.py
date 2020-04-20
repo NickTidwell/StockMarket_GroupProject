@@ -44,9 +44,9 @@ def create_model(batch_size, time_steps_in_batch, hidden_layers_LSTM, hidden_lay
 if __name__ == '__main__':
     stock_name = 'amzn'
     batch_size = 5
-    time_steps_in_batch = 20
-    hidden_layers_LSTM = 20
-    hidden_layers_relu = 20
+    time_steps_in_batch = 10
+    hidden_layers_LSTM = 50
+    hidden_layers_relu = 10
     dropout = 0
 
     x_train, y_train, x_validate, y_validate = gen_data(stock_name, batch_size, time_steps_in_batch)

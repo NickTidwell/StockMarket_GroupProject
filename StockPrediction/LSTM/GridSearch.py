@@ -9,11 +9,11 @@ import statistics
 
 # parameters to test
 stock_name = 'amzn'
-batch_size = [5, 10, 2]
+batch_size = [5, 10, 20]
 time_steps_in_batch = [10, 15, 20]
 hidden_layers_LSTM = [20, 50, 100]
 hidden_layers_relu = [5, 10, 20]
-dropout = [x * 0.05 for x in range(0, 4)]
+dropout = [x * 0.08 for x in range(0, 4)]
 """
 batch_size = [50]
 time_steps_in_batch = [20]
