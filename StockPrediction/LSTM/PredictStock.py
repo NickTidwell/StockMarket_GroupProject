@@ -12,9 +12,13 @@ from os import path
 def predict_stocks(stock_data):
     """
     stock_data columns:
-    Open,High,Low,Close,Adj Close,Volume
+    'Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume'
 
-    :type stock_data: pandas.Dataframe
+    results columns: some values may be missing (NaN)
+    'Date', 'Prediction', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume'
+
+    :param stock_data: pandas.Dataframe
+    :returns: pandas.Dataframe
     """
     model_path = path.join(path.dirname(__file__), 'LSTM_model')
     metadata_path = path.join(path.dirname(__file__), 'LSTM_model_metadata.npy')
@@ -27,6 +31,7 @@ def predict_stocks(stock_data):
 
     results = pd.DataFrame({'Date': dates, 'Prediction': predictions})
     results['Date'] = results['Date'].str.decode('utf-8')
+    results = results.merge(stock_data, how='outer',left_on='Date', right_on='Date').sort_values('Date')
     return results
 
 
