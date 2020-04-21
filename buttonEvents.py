@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import ticker
 from StockPrediction.LSTM.PredictStock import predict_stocks
-
+from os import listdir
 def displayGrid(txt):
     dow = Tk()
     app = csvTable.CreateTable(txt, dow)
@@ -21,9 +21,15 @@ def loadStockClicked(txt):
 
 def importStockClicked():
     importForm.ImportFrame()
+    updateStockList()
 
 def importSingleStock(txt,start,end,status):
-    loadStock(txt.get(),start.get_date(),end.get_date())
+    success = loadStock(txt.get(),start.get_date(),end.get_date())
+    if(success == True):
+        status.set("Success")
+        updateStockList()
+    else:
+        status.set("Failed")
 
 def plotStock(txt):
     #Modfied from code in Playground PlotStock.py
@@ -42,9 +48,12 @@ def plotStock(txt):
     ax.plot(data['Date'], data[y_value])
     plt.show()
 
-
-
-
+def updateStockList():
+    stockList = set()
+    for file in listdir(f'StockData'):
+        file = file.replace('.csv', '')
+        stockList.add(file)
+    return tuple(stockList)
 def graphPrediction(txt):
     # Author Oscar-Kosarewicz
     # Modified by Nick T

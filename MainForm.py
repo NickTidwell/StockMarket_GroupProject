@@ -4,22 +4,19 @@ import buttonEvents as be
 from functools import partial
 from pandastable import Table
 from tkcalendar import Calendar, DateEntry
-from os import listdir
-from os.path import isfile, join
+
 window = Tk()
 window.geometry('600x400')
 window.title("Python Stock Market")
 
-stockList = set()
-for file in listdir(f'StockData'):
-    file = file.replace('.csv', '')
-    stockList.add(file)
+
 
 lbl_searchText = Label(window, text="Enter Stock To Display: ", width=20, anchor="w")
 startData_lbl = Label(window, text="Start Day")
 endDate_lbl = Label(window, text="End Date")
 lbl_importName = Label(window, text="Enter Stock To Import:", width=20, anchor="w")
-lbl_importStatus = Label(window, text="Status", width=15)
+status_text = StringVar()
+lbl_importStatus = Label(window, width=15,textvariable=status_text)
 entry_import = Entry(window, width = 15)
 
 
@@ -27,7 +24,7 @@ startCal = DateEntry(window)
 endCal = DateEntry(window)
 
 tkvar = StringVar()
-cb_stockList = ttk.Combobox(window, width=15, values=tuple(stockList), textvariable=tkvar)
+cb_stockList = ttk.Combobox(window, width=15, values=be.updateStockList(), textvariable=tkvar)
 
 click_searchStock = partial(be.loadStockClicked, cb_stockList)
 btn_searchStock = Button(window, text="Display Data", width=10, command=click_searchStock)
@@ -38,7 +35,7 @@ btn_graph = Button(window, text="Graph Data", width=15, command=click_graph)
 click_predictGraph = partial(be.graphPrediction, cb_stockList)
 btn_predictGraph = Button(window, text="Predict Data", width=15, command=click_predictGraph)
 
-click_import = partial(be.importSingleStock, entry_import, startCal, endCal, lbl_importStatus)
+click_import = partial(be.importSingleStock, entry_import, startCal, endCal, status_text)
 btn_import = Button(window, text="Import", width=10, command=click_import)
 
 btn_import500 = Button(window, text="Import Fortune 500", width = 15, command=be.importStockClicked)

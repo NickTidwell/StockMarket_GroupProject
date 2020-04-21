@@ -21,7 +21,9 @@ def loadStock(ticker, start, end):
     createStockPath()
     data = pdr.get_data_yahoo(ticker,start=start, end=end)
     data.to_csv('{}/{}.csv'.format(outdir,ticker))
-
+    if(len(data) == 0):
+        return False
+    return True
 def getFortune500Ticker():
     resp = requests.get('http://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
     soup = bs.BeautifulSoup(resp.text, 'lxml')
