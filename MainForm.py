@@ -1,13 +1,19 @@
 from tkinter import *
+from tkinter import ttk
 import buttonEvents as be
 from functools import partial
 from pandastable import Table
 from tkcalendar import Calendar, DateEntry
-
+from os import listdir
+from os.path import isfile, join
 window = Tk()
 window.geometry('600x400')
 window.title("Python Stock Market")
 
+stockList = set()
+for file in listdir(f'StockData'):
+    file = file.replace('.csv', '')
+    stockList.add(file)
 
 lbl_searchText = Label(window, text="Enter Stock To Display: ", width=20, anchor="w")
 startData_lbl = Label(window, text="Start Day")
@@ -16,18 +22,20 @@ lbl_importName = Label(window, text="Enter Stock To Import:", width=20, anchor="
 lbl_importStatus = Label(window, text="Status", width=15)
 entry_import = Entry(window, width = 15)
 
-entry_stock = Entry(window, width = 15)
 
 startCal = DateEntry(window)
 endCal = DateEntry(window)
 
-click_searchStock = partial(be.loadStockClicked, entry_stock)
+tkvar = StringVar()
+cb_stockList = ttk.Combobox(window, width=15, values=tuple(stockList), textvariable=tkvar)
+
+click_searchStock = partial(be.loadStockClicked, cb_stockList)
 btn_searchStock = Button(window, text="Display Data", width=10, command=click_searchStock)
 
-click_graph = partial(be.plotStock, entry_stock)
+click_graph = partial(be.plotStock, cb_stockList)
 btn_graph = Button(window, text="Graph Data", width=15, command=click_graph)
 
-click_predictGraph = partial(be.graphPrediction, entry_stock)
+click_predictGraph = partial(be.graphPrediction, cb_stockList)
 btn_predictGraph = Button(window, text="Predict Data", width=15, command=click_predictGraph)
 
 click_import = partial(be.importSingleStock, entry_import, startCal, endCal, lbl_importStatus)
@@ -38,7 +46,7 @@ btn_import500 = Button(window, text="Import Fortune 500", width = 15, command=be
 
 lbl_searchText.grid(column=0, row=0)
 btn_searchStock.grid(column=2, row=0)
-entry_stock.grid(column=1, row=0)
+cb_stockList.grid(column=1, row=0)
 btn_import500.grid(column=3, row=2)
 btn_graph.grid(column=3,row=0)
 btn_predictGraph.grid(column=4,row=0)
