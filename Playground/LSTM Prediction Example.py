@@ -7,7 +7,7 @@ from matplotlib import ticker
 from StockPrediction.LSTM.PredictStock import predict_stocks
 
 if __name__ == '__main__':
-    stock_name='jcp'
+    stock_name='abc'
     # import predictor data into Dataframe
     data_source = f'../StockData/{stock_name}.csv'
     data = pd.read_csv(data_source)
