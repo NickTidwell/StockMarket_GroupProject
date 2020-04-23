@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import ticker
 from StockPrediction.LSTM.PredictStock import predict_stocks
-from os import listdir
+from os import listdir, path
 def displayGrid(txt):
     dow = Tk()
     app = csvTable.CreateTable(txt, dow)
@@ -26,10 +26,10 @@ def importStockClicked():
 def importSingleStock(txt,start,end,status):
     success = loadStock(txt.get(),start.get_date(),end.get_date())
     if(success == True):
-        status.set("Success")
+        status["text"] = "Success"
         updateStockList()
     else:
-        status.set("Failed")
+        status["text"] = "Failed"
 
 def plotStock(txt):
     #Modfied from code in Playground PlotStock.py
@@ -50,10 +50,31 @@ def plotStock(txt):
 
 def updateStockList():
     stockList = set()
-    for file in listdir(f'StockData'):
-        file = file.replace('.csv', '')
-        stockList.add(file)
-    return tuple(stockList)
+    if path.exists(f'stockData'):
+        for file in listdir(f'StockData'):
+            file = file.replace('.csv', '')
+            stockList.add(file)
+        return tuple(stockList)
+    return tuple()
+
+def buildReport():
+    stockList = updateStockList()
+    report = dict()
+    for stock in stockList:
+        report[stock] = predictPercentChange(stock)
+
+    print(report)
+
+def predictPercentChange(stock_name):
+    data_source = f'StockData/{stock_name}.csv'
+    data = pd.read_csv(data_source)
+    prediction_data = predict_stocks(data)
+    next_value = prediction_data['Prediction'].values[-1]
+    prev_pred = prediction_data['Prediction'].values[-2]
+
+    changeVal =  (next_value - prev_pred)/prev_pred * 100
+    print("Stock: {} , {}".format(stock_name,changeVal))
+    return changeVal
 def graphPrediction(txt):
     # Author Oscar-Kosarewicz
     # Modified by Nick T
@@ -64,7 +85,8 @@ def graphPrediction(txt):
 
     # Calculate predictions
     prediction_data = predict_stocks(data)
-
+    predicted_value = prediction_data['Prediction'].values[-1]
+   # print(prediction_data["Prediction"][-1])
     # Set up plot
     plt.title(f'{stock_name.upper()} Price Prediction')
     plt.xlabel('Date')
