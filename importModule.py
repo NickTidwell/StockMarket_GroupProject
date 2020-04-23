@@ -18,11 +18,14 @@ def createStockPath():
         os.mkdir(outdir)
 
 def loadStock(ticker, start, end):
+    if (end - start).days < 365:
+        print("Must have greater then 365 days to import")
+        return False
     createStockPath()
     data = pdr.get_data_yahoo(ticker,start=start, end=end)
-    data.to_csv('{}/{}.csv'.format(outdir,ticker))
     if(len(data) == 0):
         return False
+    data.to_csv('{}/{}.csv'.format(outdir,ticker))
     return True
 def getFortune500Ticker():
     resp = requests.get('http://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
