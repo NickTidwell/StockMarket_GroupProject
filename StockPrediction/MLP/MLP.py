@@ -31,5 +31,3 @@ model.fit(trainX, trainY, epochs=100)
 model.save('MLP_model')
 
 plot_MLP.plotter('MLP_model')
-
-print(model.evaluate(testX, testY))
