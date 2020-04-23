@@ -1,6 +1,7 @@
 from importModule import loadStock
 from tkinter import *
 import importForm
+import reportViewForm
 import csv
 import csvTable
 import pandas as pd
@@ -11,7 +12,7 @@ from os import listdir, path
 from reportModule import buildReport
 def displayGrid(txt):
     dow = Tk()
-    app = csvTable.CreateTable(txt, dow)
+    app = csvTable.CreateStockTable(txt, dow)
     app.mainloop()
 
 def loadStockClicked(txt):
@@ -20,6 +21,9 @@ def loadStockClicked(txt):
 def importStockClicked():
     importForm.ImportFrame()
     updateStockList()
+
+def viewReportClicked():
+    reportViewForm.ReportFrame()
 
 def importSingleStock(txt,start,end,status):
     success = loadStock(txt.get(),start.get_date(),end.get_date())
@@ -57,6 +61,14 @@ def updateStockList():
         return tuple(stockList)
     return tuple()
 
+
+def reportList():
+    report = set()
+    if path.exists(f'reports'):
+        for file in listdir(f'reports'):
+            report.add(file)
+        return tuple(report)
+    return tuple()
 
     changeVal =  (next_value - prev_pred)/prev_pred * 100
     print("Stock: {} , {}".format(stock_name,changeVal))

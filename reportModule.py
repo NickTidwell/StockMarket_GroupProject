@@ -4,7 +4,16 @@ import csv
 import  datetime
 import pandas as pd
 import os
+from csvTable import CreateReportTable
+from tkinter import *
 
+def openReport(report):
+    input = report.get()
+    if input == '':
+        return
+    dow = Tk()
+    app = CreateReportTable(input, dow)
+    app.mainloop()
 
 def createReportPath(path):
     if not os.path.exists(path):
@@ -22,7 +31,10 @@ def buildReport():
         stockList = be.updateStockList()
         for stock in stockList:
             data = {'ticker': stock, 'percent_change': predictPercentChange(stock)}
+            print(data)
             writer.writerow(data)
+            break;
+
 
 def predictPercentChange(stock_name):
     data_source = f'StockData/{stock_name}.csv'
