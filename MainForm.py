@@ -29,16 +29,17 @@ cb_stockList = ttk.Combobox(window, width=15, values=be.updateStockList(), textv
 click_searchStock = partial(be.loadStockClicked, cb_stockList)
 btn_searchStock = Button(window, text="Display Data", width=10, command=click_searchStock)
 
+click_buildReport = partial(be.buildReport)
+btn_buildReport = Button(window, text="Build Report", width=10, command=click_buildReport)
+
 click_graph = partial(be.plotStock, cb_stockList)
 btn_graph = Button(window, text="Graph Data", width=15, command=click_graph)
 
 click_predictGraph = partial(be.graphPrediction, cb_stockList)
 btn_predictGraph = Button(window, text="Predict Data", width=15, command=click_predictGraph)
 
-click_import = partial(be.importSingleStock, entry_import, startCal, endCal, status_text)
-btn_import = Button(window, text="Import", width=10, command=click_import)
 
-btn_import500 = Button(window, text="Import Fortune 500", width = 15, command=be.importStockClicked)
+btn_import500 = Button(window, text="Import Form", width = 15, command=be.importStockClicked)
 
 
 lbl_searchText.grid(column=0, row=0)
@@ -47,13 +48,7 @@ cb_stockList.grid(column=1, row=0)
 btn_import500.grid(column=3, row=2)
 btn_graph.grid(column=3,row=0)
 btn_predictGraph.grid(column=4,row=0)
-lbl_importStatus.grid(column=4,row=2)
+btn_buildReport.grid(column=4,row=2)
+lbl_importStatus.grid(column=4,row=3)
 
-lbl_importName.grid(column=0,row=2)
-entry_import.grid(column=1,row=2)
-startData_lbl.grid(column=0, row=3)
-endDate_lbl.grid(column=0, row=4)
-btn_import.grid(column=2, row=2)
-endCal.grid(column=2, row=4)
-startCal.grid(column=2, row=3)
 window.mainloop()
