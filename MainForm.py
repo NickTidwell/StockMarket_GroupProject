@@ -26,10 +26,13 @@ endCal = DateEntry(window)
 tkvar = StringVar()
 cb_stockList = ttk.Combobox(window, width=15, values=be.updateStockList(), textvariable=tkvar)
 
+tkvar_reports = StringVar()
+cb_reports = ttk.Combobox(window, width=15, values=be.updateStockList(), textvariable=tkvar_reports)
+
 click_searchStock = partial(be.loadStockClicked, cb_stockList)
 btn_searchStock = Button(window, text="Display Data", width=10, command=click_searchStock)
 
-click_buildReport = partial(be.buildReport)
+click_buildReport = partial(be.buildReportM)
 btn_buildReport = Button(window, text="Build Report", width=10, command=click_buildReport)
 
 click_graph = partial(be.plotStock, cb_stockList)
