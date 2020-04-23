@@ -26,7 +26,7 @@ def predict_stocks(stock_data):
     model_metadata = np.load(metadata_path, allow_pickle=True).item()
     x, y, dates, min_price, max_price = process_data(stock_data, model_metadata['batch_size'],
                                                      model_metadata['time_steps_in_batch'])
-    predictions = model.predict(x, batch_size=model_metadata['batch_size']).flatten()
+    predictions = np.asarray(model.predict(x, batch_size=model_metadata['batch_size'])).flatten()
     predictions = denormalize(predictions, min_price, max_price)
 
     results = pd.DataFrame({'Date': dates, 'Prediction': predictions})
