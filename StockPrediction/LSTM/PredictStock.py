@@ -8,7 +8,7 @@ from StockPrediction.LSTM.CreateTrainingData import process_data, denormalize
 from os import path
 
 
-
+# Get stock predictions from LSTM by passing in a dataframe of stock data
 def predict_stocks(stock_data):
     """
     stock_data columns:
