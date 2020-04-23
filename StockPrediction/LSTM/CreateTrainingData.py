@@ -1,4 +1,4 @@
-# Create training data for LST
+# Create training data for LSTM
 # Author: Oscar Kosar-Kosarewicz
 
 import numpy as np
@@ -9,11 +9,13 @@ import pandas as pd
 index_of_target_variable = 4  # close price
 
 
+# return the date the day after the input date
 def next_day(date):
     d = datetime.datetime.strptime(date, '%Y-%m-%d')
     d += datetime.timedelta(days=1)
     return d.strftime('%Y-%m-%d')
 
+# Trim the fron of the data to be evenly divisible by the batch size
 def trim_data(x, batch_size):
     rows_to_drop = x.shape[0] % batch_size
     if rows_to_drop > 0:
@@ -21,6 +23,7 @@ def trim_data(x, batch_size):
         return x
     return x
 
+# convert data to timeseries for LSTM input
 def create_timeseries(data, time_steps_in_batch, training=True):
     num_batches = data.shape[0] - time_steps_in_batch
     entries_per_sample = data.shape[1]-1
@@ -53,6 +56,7 @@ def denormalize(data, min, max):
     data = data * (max-min) + min
     return data
 
+# Read stock data from csv, process it for training and save it
 def generate_training_data(stock_name, time_steps_in_batch):
     data_source = f'../../StockData/{stock_name}.csv'
     data = pd.read_csv(data_source)
@@ -65,6 +69,7 @@ def generate_training_data(stock_name, time_steps_in_batch):
     np.save('TestingDates', dates)
     return x_train, y_train, x_test, y_test
 
+# process_data for live prediction
 def process_data(data, batch_size, time_steps_in_batch):
     data, min_price, max_price = normalize_data(data)
     x, y, dates = create_timeseries(data, time_steps_in_batch, training=False)
