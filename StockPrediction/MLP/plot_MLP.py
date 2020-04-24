@@ -4,7 +4,8 @@ import tensorflow as tf
 import keras as ks
 import numpy as np
 
-def plotter(file_path):
+def plotter():
+    file_path='MLP_model'
     imported_model = tf.saved_model.load(file_path)
 
     testX = np.load("testX.npy")
