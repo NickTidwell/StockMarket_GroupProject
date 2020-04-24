@@ -1,9 +1,7 @@
 from PyQt5 import QtWidgets, QtCore, Qt
 from PyQt5.QtGui import QPainter, QTextDocument
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtGui import QPainter, QTextDocument
-from PyQt5.QtCore import QRect, Qt, QRectF
 from PyQt5.QtWidgets import QPlainTextEdit
+from PyQt5.QtWidgets import QLineEdit
 import sys
 import dbConn
 import mainGUI
@@ -24,25 +22,34 @@ class search_window(QtWidgets.QWidget):
 
         self.textbox = QtWidgets.QLineEdit(self)
         self.textbox.move(165, 150)
-        self.textbox.setEchoMode(0)
+        self.textbox.setEchoMode(QLineEdit.Normal)
         self.textbox.resize(280, 40)
+
+        self.textbox2 = QtWidgets.QLineEdit(self)
+        self.textbox2.move(605, 270)
+        self.textbox2.setEchoMode(QLineEdit.Normal)
+        self.textbox2.resize(280, 40)
 
         self.continueBtn = QtWidgets.QPushButton("Perform Query", self)
         self.continueBtn.setGeometry(205,200, 200,60)
         self.continueBtn.clicked.connect(self.cont)
 
         self.exportBtn = QtWidgets.QPushButton("Export Query", self)
-        self.exportBtn.setGeometry(505, 200, 200, 60)
+        self.exportBtn.setGeometry(625, 200, 200, 60)
         self.exportBtn.clicked.connect(self.exportFunc)
 
 
-        self.output = QPlainTextEdit(self)
-        self.output.move(205,260)
-        self.output.setGeometry(150,300,400,200)
-        self.output.setReadOnly(True)
+        self.output2 = QPlainTextEdit(self)
+        self.output2.move(205,260)
+        self.output2.setGeometry(150,300,400,200)
+        self.output2.setReadOnly(True)
         self.show()
 
         self.theOutput =[]
+
+        self.input =""
+
+    #def QPlainTextEdit.event(e)
 
     def errorPop(self,err,msgCode=0):
         msg = QtWidgets.QMessageBox()
@@ -59,14 +66,19 @@ class search_window(QtWidgets.QWidget):
             QtWidgets.QApplication.quit()
 
     def exportFunc(self):
-        if self.output.blockCount() == 1:
+        self.input2 = self.textbox2.text()
+        if self.output2.blockCount() == 1:
+            return
+        if self.input2 == "":
+            self.errorPop("You must enter a file name!",1)
             return
         ex = export.export()
-        ex.runExport(self.theOutput)
+        ex.runExport(self.theOutput, self.input, self.input2)
 
     def cont(self):
-        input = self.textbox.text().lower()
-        bool = input.find("select")
+
+        self.input = self.textbox.text().lower()
+        bool = self.input.find("select")
         if input == "":
            return
         elif bool == -1:
@@ -74,14 +86,13 @@ class search_window(QtWidgets.QWidget):
             return
         else:
             que = dbQuery.query()
-            returnInput,e = que.query(input)
-
+            returnInput,e = que.query(self.input)
             if returnInput == 0:
                 self.errorPop(e)
             else:
-                self.output.clear()
+                self.output2.clear()
                 for x in range(e):
-                    self.output.insertPlainText(returnInput[x] +"\n")
+                    self.output2.insertPlainText(returnInput[x] +"\n")
                 self.theOutput = returnInput
 
     def paintEvent(self,event):
