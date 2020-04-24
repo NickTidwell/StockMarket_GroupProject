@@ -12,7 +12,6 @@ def importMLPStock(stock):
     
     datasource = DataSplitter(f"StockData/{stock}.csv", 0.9)
     length = datasource.length // 100
-    print("length", length)
     datasource.create_training(length)
     datasource.create_testing(length)
 

@@ -15,8 +15,4 @@ def plotter(file_path):
     date = np.arange(len(prediction))
     return date, prediction
       
-    #ax1 = plt.subplot(1, 1, 1)
-    #line = ax1.plot(date, testY)
-    #line2 = ax1.plot(date, restored_model.predict(testX))
-    
-    #plt.show()
+
