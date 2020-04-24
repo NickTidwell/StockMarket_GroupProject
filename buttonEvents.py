@@ -87,6 +87,11 @@ def graphPrediction(txt):
 
     # Calculate predictions
     prediction_data = predict_stocks(data)
+    
+     ### archive predictions into DB
+    q = dbInsert.query()
+    q.query(stock_name, prediction_data)
+    
     predicted_value = prediction_data['Prediction'].values[-1]
    # print(prediction_data["Prediction"][-1])
     # Set up plot
