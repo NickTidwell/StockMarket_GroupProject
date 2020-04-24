@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtCore, Qt
 from PyQt5.QtGui import QPainter, QTextDocument
 from PyQt5.QtWidgets import QApplication, QMainWindow,QWidget,QGridLayout
 from PyQt5.QtGui import QPainter, QTextDocument
-from PyQt5.QtCore import QRect, Qt, QRectF
+from PyQt5.QtCore import QRect, QRectF
 from PyQt5.QtWidgets import QLineEdit
 import sys
 import dbConn
