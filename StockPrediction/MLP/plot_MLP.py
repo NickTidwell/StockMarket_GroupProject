@@ -8,8 +8,9 @@ def plotter():
     file_path='MLP_model'
     imported_model = tf.saved_model.load(file_path)
 
-    testX = np.load("testX.npy")
+    testX = np.load("trainX.npy")
     testY = np.load("testY.npy")
+    trainX = np.load('trainX.npy')
 
     restored_model = tf.keras.models.load_model(file_path)
     prediction = restored_model.predict(testX)
