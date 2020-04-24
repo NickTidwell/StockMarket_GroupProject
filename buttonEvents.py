@@ -13,6 +13,8 @@ from os import listdir, path
 from StockPrediction.MLP.MLP import importMLPStock     # used for MLP prediction
 from StockPrediction.MLP.plot_MLP import plotter     # used for MLP prediction
 from reportModule import buildReport
+import dbInsert
+
 def displayGrid(txt):
     dow = Tk()
     app = csvTable.CreateStockTable(txt, dow)
