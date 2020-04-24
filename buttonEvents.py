@@ -78,7 +78,7 @@ def graphPrediction(txt):
     # Modified by Nick T
     # import predictor data into Dataframe
     stock_name = txt.get()
-    data_source = f'StockData/{stock_name}.csv'
+    data_source = path.join(path.dirname(__file__), f'StockData/{stock_name}.csv')
     data = pd.read_csv(data_source)
 
     # Calculate predictions
