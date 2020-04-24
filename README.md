@@ -8,7 +8,9 @@ select a stock and you have a couple options:
 
 1.	You can view the raw data by clicking view data
 2.	You can view the graph by clicking graph data
-3.	You can view the prediction models by clicking predict
+3.	You can view the prediction models by clicking predict. The prediction data is sent to a database.
 
 You can build a report on all the stocks imported by clicking build report
 In the report menu you can click and view the past reports.
+
+Users can query the database of prediction data & generate .cvs files of the data through an interface. 
