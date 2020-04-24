@@ -38,6 +38,8 @@ class loginWindow(QtWidgets.QWidget):
         print(self.returnCon)
         #return self.returnCon
 
+
+
     def errorPop(self):
         msg = QtWidgets.QMessageBox()
         msg.setText("Invalid DB - Try again.")
