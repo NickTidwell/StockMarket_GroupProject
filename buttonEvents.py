@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from matplotlib import ticker
 from StockPrediction.LSTM.PredictStock import predict_stocks
 from os import listdir, path
+from StockPrediction.MLP.MLP import importMLPStock     # used for MLP prediction
 def displayGrid(txt):
     dow = Tk()
     app = csvTable.CreateTable(txt, dow)
@@ -82,6 +83,9 @@ def graphPrediction(txt):
     stock_name = txt.get()
     data_source = f'StockData/{stock_name}.csv'
     data = pd.read_csv(data_source)
+    
+    importMLPStock(stock_name)  # call MLP method
+
 
     # Calculate predictions
     prediction_data = predict_stocks(data)
