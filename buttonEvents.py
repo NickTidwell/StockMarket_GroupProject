@@ -90,8 +90,9 @@ def graphPrediction(txt):
     predicted_value = prediction_data['Prediction'].values[-1]
    # print(prediction_data["Prediction"][-1])
     # Set up plot
-    plt.figure(figsize=(10, 5))
-    plt.title(f'{stock_name.upper()} Price Prediction')
+    title=f'{stock_name.upper()} Price Prediction'
+    plt.figure(figsize=(10, 5), num=title)
+    plt.title(title)
     plt.xlabel('Date')
     plt.ylabel('Price')
     ax = plt.gca()
