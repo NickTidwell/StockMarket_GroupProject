@@ -6,13 +6,10 @@ import keras as ks
 from StockPrediction.LSTM.CreateTrainingData import generate_training_data
 from StockPrediction.LSTM.PlotLoss import plot_loss
 from StockPrediction.LSTM.PlotModelPrediction import plot_prediction
-from StockPrediction.LSTM.CreateTrainingData import  trim_data
+from StockPrediction.LSTM.CreateTrainingData import trim_data
 
-
-
-
+# generate training and test data
 def gen_data(stock_name, batch_size, time_steps_in_batch):
-
     x_train, y_train, x_temp, y_temp = generate_training_data(stock_name, time_steps_in_batch)
     x_train = trim_data(x_train, batch_size)
     y_train = trim_data(y_train, batch_size)
@@ -21,10 +18,11 @@ def gen_data(stock_name, batch_size, time_steps_in_batch):
 
     x_validate = trim_data(x_validate, batch_size)
     y_validate = trim_data(y_validate, batch_size)
-    #x_test, y_test = trim_data(x_test, y_test, batch_size)
+    # x_test, y_test = trim_data(x_test, y_test, batch_size)
     return x_train, y_train, x_validate, y_validate
 
 
+# Create and return LSTM Model
 def create_model(batch_size, time_steps_in_batch, hidden_layers_LSTM, hidden_layers_relu, dropout):
     model = ks.Sequential()
     model.add(ks.layers.LSTM(hidden_layers_LSTM, batch_input_shape=(batch_size, time_steps_in_batch, 6),
@@ -35,7 +33,6 @@ def create_model(batch_size, time_steps_in_batch, hidden_layers_LSTM, hidden_lay
     model.add(ks.layers.Dropout(dropout))
     model.add(ks.layers.Dense(hidden_layers_relu, activation='relu'))
     model.add(ks.layers.Dense(1, activation='linear'))
-    # optimizer = ks.optimizers.RMSprop(lr=.01)
     model.compile(loss='mean_squared_error', optimizer='adam')
 
     return model

@@ -23,13 +23,14 @@ hidden_layers_relu = [20]
 
 param_grid = ParameterGrid(dict(batch_size=batch_size, time_steps_in_batch=time_steps_in_batch, hidden_layers_LSTM=hidden_layers_LSTM,
                   hidden_layers_relu=hidden_layers_relu, dropout=dropout))
-results = pd.DataFrame()
 
+# Train a model for every combination and compare performance by measuring loss over the
+# last 50 epochs and save the results to a file. This ensures the model is stable.
+results = pd.DataFrame()
 for i, kwargs in enumerate(param_grid):
     x_train, y_train, x_validate, y_validate = gen_data(stock_name, kwargs['batch_size'], kwargs['time_steps_in_batch'])
     model = create_model(**kwargs)
     history = model.fit(x_train, y_train, epochs=200, batch_size=kwargs['batch_size'], validation_data=(x_validate, y_validate), verbose=0)
-    #score = model.evaluate(x_validate, y_validate, batch_size=kwargs['batch_size'])
     loss_history = history.history['val_loss'][50:]
     score = statistics.mean(loss_history)
     kwargs['score'] = score

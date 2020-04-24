@@ -1,20 +1,19 @@
 from importModule import loadStock
 from tkinter import *
 import importForm
+import reportViewForm
 import csv
 import csvTable
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-import pandas as pd
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import ticker
 from StockPrediction.LSTM.PredictStock import predict_stocks
 from os import listdir, path
 from StockPrediction.MLP.MLP import importMLPStock     # used for MLP prediction
+from reportModule import buildReport
 def displayGrid(txt):
     dow = Tk()
-    app = csvTable.CreateTable(txt, dow)
+    app = csvTable.CreateStockTable(txt, dow)
     app.mainloop()
 
 def loadStockClicked(txt):
@@ -24,6 +23,9 @@ def importStockClicked():
     importForm.ImportFrame()
     updateStockList()
 
+def viewReportClicked():
+    reportViewForm.ReportFrame()
+
 def importSingleStock(txt,start,end,status):
     success = loadStock(txt.get(),start.get_date(),end.get_date())
     if(success == True):
@@ -32,6 +34,8 @@ def importSingleStock(txt,start,end,status):
     else:
         status["text"] = "Failed"
 
+def buildReportM():
+    buildReport()
 def plotStock(txt):
     #Modfied from code in Playground PlotStock.py
     stock_name = txt.get()
@@ -58,20 +62,14 @@ def updateStockList():
         return tuple(stockList)
     return tuple()
 
-def buildReport():
-    stockList = updateStockList()
-    report = dict()
-    for stock in stockList:
-        report[stock] = predictPercentChange(stock)
 
-    print(report)
-
-def predictPercentChange(stock_name):
-    data_source = f'StockData/{stock_name}.csv'
-    data = pd.read_csv(data_source)
-    prediction_data = predict_stocks(data)
-    next_value = prediction_data['Prediction'].values[-1]
-    prev_pred = prediction_data['Prediction'].values[-2]
+def reportList():
+    report = set()
+    if path.exists(f'reports'):
+        for file in listdir(f'reports'):
+            report.add(file)
+        return tuple(report)
+    return tuple()
 
     changeVal =  (next_value - prev_pred)/prev_pred * 100
     print("Stock: {} , {}".format(stock_name,changeVal))
