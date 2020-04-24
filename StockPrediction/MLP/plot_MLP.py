@@ -13,9 +13,10 @@ def plotter(file_path):
     restored_model = tf.keras.models.load_model(file_path)
     prediction = restored_model.predict(testX)
     date = np.arange(len(prediction))
+    return date, prediction
       
-    ax1 = plt.subplot(1, 1, 1)
-    line = ax1.plot(date, testY)
-    line2 = ax1.plot(date, restored_model.predict(testX))
+    #ax1 = plt.subplot(1, 1, 1)
+    #line = ax1.plot(date, testY)
+    #line2 = ax1.plot(date, restored_model.predict(testX))
     
-    plt.show()
+    #plt.show()

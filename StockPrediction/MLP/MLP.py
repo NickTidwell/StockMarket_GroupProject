@@ -36,4 +36,4 @@ def importMLPStock(stock):
 
     model.save('MLP_model')
 
-    plot_MLP.plotter('MLP_model')
+    return plot_MLP.plotter('MLP_model')
