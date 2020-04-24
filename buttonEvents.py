@@ -88,8 +88,6 @@ def graphPrediction(txt):
     stock_name = txt.get()
     data_source = path.join(path.dirname(__file__), f'StockData/{stock_name}.csv')
     data = pd.read_csv(data_source)
-    
-
 
     # Calculate predictions
     prediction_data = predict_stocks(data)
