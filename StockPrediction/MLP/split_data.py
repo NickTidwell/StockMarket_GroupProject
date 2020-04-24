@@ -1,4 +1,5 @@
 import numpy as np
+from os import path
 import pandas as pd
 
 class DataSplitter:
@@ -18,11 +19,14 @@ class DataSplitter:
         self.length = len(self.file)
 
     def create_training(self, train_size):      # splits traing data in to test_size np arrays
-        for i in range((len(self.train_data)// train_size)*train_size - train_size - 1 ):
+        iterations = (len(self.train_data)// train_size)*train_size - train_size - 1
+        for i in range(iterations):
             x = np.array(self.train_data.iloc[i: i + train_size, 1])
             y = np.array([self.train_data.iloc[i + train_size + 1, 1]], np.float)
             self.input_train.append(x)
             self.output_train.append(y)
+
+
         
         self.trainX = np.array(self.input_train)
         self.trainY = np.array(self.output_train)  
@@ -33,8 +37,9 @@ class DataSplitter:
         np.save('Dates', dates)
          
         
-    def create_testing(self, test_size):        
-        for i in range((len(self.test_data)// test_size)*test_size - test_size - 1 ):
+    def create_testing(self, test_size):
+        iterations = (len(self.test_data)// test_size)*test_size - test_size - 1
+        for i in range(iterations):
             x = np.array(self.test_data.iloc[i: i + test_size, 1])
             y = np.array([self.test_data.iloc[i + test_size + 1, 1]], np.float)
             self.input_test.append(x)

@@ -86,7 +86,6 @@ def graphPrediction(txt):
     data_source = path.join(path.dirname(__file__), f'StockData/{stock_name}.csv')
     data = pd.read_csv(data_source)
     
-    datesMLP, predictionsMLP = plotter()  # call MLP method
 
 
     # Calculate predictions
@@ -117,6 +116,9 @@ def graphPrediction(txt):
     predicted_lineLSTM.set_label('Predicted LSTM')
 
     # Plot MLP predicted stock price
+    #importMLPStock(stock_name)
+    datesMLP, predictionsMLP = plotter(data_source)  # call MLP method
+    predictionsMLP = predictionsMLP[:prediction_data.shape[0]]
     predicted_lineMLP, = ax.plot(datesMLP, predictionsMLP)
     predicted_lineMLP.set_label('Predicted MLP')
 

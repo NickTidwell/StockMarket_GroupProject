@@ -1,5 +1,4 @@
 from  StockPrediction.MLP.split_data import DataSplitter
-import tensorflow as tf
 from StockPrediction.MLP import plot_MLP
 import keras
 import numpy as np
@@ -9,30 +8,30 @@ import os
 
 def importMLPStock(stock):
     
-    
-    datasource = DataSplitter(f"StockData/{stock}.csv", 0.9)
+    data_file_path =  f"../../StockData/{stock}.csv"
+    datasource = DataSplitter(data_file_path, 0.9)
     length = datasource.length // 100
     datasource.create_training(length)
     datasource.create_testing(length)
 
 
     trainX = datasource.trainX  
-    trainY = datasource.trainY  
+    trainY = datasource.trainY
 
     testX = datasource.testX
     testY = datasource.testY
 
-    model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.Dense(100, activation=tf.nn.relu))
-    model.add(tf.keras.layers.Dense(100, activation=tf.nn.relu))
-    model.add(tf.keras.layers.Dense(1, activation=tf.nn.relu))
+    model = keras.models.Sequential()
+    model.add(keras.layers.Dense(100, activation='relu'))
+    model.add(keras.layers.Dense(100, activation='relu'))
+    model.add(keras.layers.Dense(1, activation='relu'))
 
-    tf.random.set_seed(13)
     keras.optimizers.Adam(learning_rate=0.1)
     model.compile(loss="mean_squared_error", optimizer="adam")  # adam is the chosen optimizer
 
     model.fit(trainX, trainY, epochs=100, batch_size = 100, validation_data=(testX, testY))
 
-    model.save('MLP_model')
+    model.save('MLP_model.h5')
 
-    return plot_MLP.plotter('MLP_model')
+if __name__ == '__main__':
+    importMLPStock('amzn')

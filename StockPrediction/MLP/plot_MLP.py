@@ -1,20 +1,24 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-import tensorflow as tf
 import keras as ks
 import numpy as np
+from keras.models import load_model
+from os import path
+from  StockPrediction.MLP.split_data import DataSplitter
 
-def plotter():
-    file_path='MLP_model'
-    imported_model = tf.saved_model.load(file_path)
+def plotter(data_file_path):
+    datasource = DataSplitter(data_file_path, 1)
+    length = datasource.length // 100
+    offset = datasource.length- ((datasource.length // length)*length - 1)
+    datasource.create_training(length)
 
-    testX = np.load("trainX.npy")
-    testY = np.load("testY.npy")
-    trainX = np.load('trainX.npy')
+    x = datasource.trainX
 
-    restored_model = tf.keras.models.load_model(file_path)
-    prediction = restored_model.predict(testX)
-    date = np.arange(len(prediction))
+    file_path = path.join(path.dirname(__file__), 'MLP_model.h5')
+
+    restored_model = load_model(file_path)
+    prediction = restored_model.predict(x)
+    date = np.arange(offset,len(prediction)+offset)
     return date, prediction
       
 
