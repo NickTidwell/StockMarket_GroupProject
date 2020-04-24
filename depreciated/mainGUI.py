@@ -3,10 +3,12 @@ from PyQt5.QtGui import QPainter, QTextDocument
 from PyQt5.QtWidgets import QApplication, QMainWindow,QWidget,QGridLayout
 from PyQt5.QtGui import QPainter, QTextDocument
 from PyQt5.QtCore import QRect, Qt, QRectF
+from PyQt5.QtWidgets import QLineEdit
 import sys
 import dbConn
 import mainGUI
 from PyQt5 import QtGui
+from PyQt5.QtWidgets import QPlainTextEdit
 
 import dbGUI
 import searchWindow
@@ -14,7 +16,7 @@ import dbQuery
 
 class main_window(QWidget):
     def __init__(self):
-        super().__init__()
+        QtWidgets.QWidget.__init__(self)
         self.title = "DB Dashboard"
         self.setGeometry(50, 50, 800, 600)
         self.setFixedSize(800, 600)
@@ -24,7 +26,6 @@ class main_window(QWidget):
         self.setup()
 
     def setup(self):
-        btnNames = ["Query","Archive", "Manage Tables", "TBD", "TBD2", "TB3"]
         self.btns = []
         self.query = self.dbEventBtn("Query")
         self.archive = self.dbEventBtn("Archive")
@@ -43,6 +44,7 @@ class main_window(QWidget):
         self.setWindowTitle(self.title)
         self.gridded = QGridLayout()
         c =0
+
         for i in range(3):
             for x in range(2):
                 self.gridded.addWidget(self.btns[c],i,x)
@@ -51,6 +53,14 @@ class main_window(QWidget):
         self.query.clicked.connect(self.queryPop)
 
         self.show()
+
+    class getText(QtWidgets.QLineEdit):
+        def __init__(self):
+            QtWidgets.QLineEdit.__init__(self)
+            #output2 = QPlainTextEdit()
+            self.move(165, 150)
+            #self.setEchoMode(0)
+            self.resize(280, 40)
 
     class dbEventBtn(QtWidgets.QPushButton):
         def __init__(self,name):
