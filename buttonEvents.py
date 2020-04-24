@@ -1,3 +1,4 @@
+import dbInsert
 from importModule import loadStock
 from tkinter import *
 import importForm
@@ -10,6 +11,7 @@ from matplotlib import ticker
 from StockPrediction.LSTM.PredictStock import predict_stocks
 from os import listdir, path
 from StockPrediction.MLP.MLP import importMLPStock     # used for MLP prediction
+from StockPrediction.MLP.plot_MLP import plotter     # used for MLP prediction
 from reportModule import buildReport
 import dbInsert
 
@@ -84,7 +86,7 @@ def graphPrediction(txt):
     data_source = path.join(path.dirname(__file__), f'StockData/{stock_name}.csv')
     data = pd.read_csv(data_source)
     
-    datesMLP, predictionsMLP = importMLPStock(stock_name)  # call MLP method
+    datesMLP, predictionsMLP = plotter()  # call MLP method
 
 
     # Calculate predictions
