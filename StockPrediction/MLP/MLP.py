@@ -9,10 +9,8 @@ import os
 
 def importMLPStock(stock):
     
-    print("d is: ", os.getcwd())
     
-    stock += ".csv"
-    datasource = DataSplitter(f"StockData/amzn.csv", 0.9)
+    datasource = DataSplitter(f"StockData/{stock}.csv", 0.9)
     length = datasource.length // 100
     print("length", length)
     datasource.create_training(length)
