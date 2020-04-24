@@ -39,10 +39,10 @@ def plotStock(txt):
     #Modfied from code in Playground PlotStock.py
     stock_name = txt.get()
     y_value = 'Open'
-    data_file_path = f'StockData/{stock_name}.csv'
+    data_file_path = path.join(path.dirname(__file__), f'StockData/{stock_name}.csv')
     data = pd.read_csv(data_file_path)
     title = f'{stock_name.upper()} Stock'
-    plt.figure(figsize=(12, 6), num=title)
+    plt.figure(figsize=(10, 5), num=title)
     ax = plt.subplot(1, 1, 1)
     plt.title(title)
     ax.xaxis.set_major_locator(ticker.MaxNLocator(10))
@@ -86,6 +86,7 @@ def graphPrediction(txt):
     predicted_value = prediction_data['Prediction'].values[-1]
    # print(prediction_data["Prediction"][-1])
     # Set up plot
+    plt.figure(figsize=(10, 5))
     plt.title(f'{stock_name.upper()} Price Prediction')
     plt.xlabel('Date')
     plt.ylabel('Price')
