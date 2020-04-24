@@ -14,6 +14,8 @@ from StockPrediction.MLP.MLP import importMLPStock     # used for MLP prediction
 from StockPrediction.MLP.plot_MLP import plotter     # used for MLP prediction
 from reportModule import buildReport
 import dbInsert
+from concurrent import futures
+thread_pool_executor = futures.ThreadPoolExecutor(max_workers=2)
 
 def displayGrid(txt):
     dow = Tk()
@@ -39,7 +41,8 @@ def importSingleStock(txt,start,end,status):
         status["text"] = "Failed"
 
 def buildReportM():
-    buildReport()
+    thread_pool_executor.submit(buildReport)
+
 def plotStock(txt):
     #Modfied from code in Playground PlotStock.py
     stock_name = txt.get()
@@ -90,7 +93,7 @@ def graphPrediction(txt):
 
     # Calculate predictions
     prediction_data = predict_stocks(data)
-    
+
      ### archive predictions into DB
     q = dbInsert.query()
     q.query(stock_name, prediction_data)

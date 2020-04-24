@@ -33,8 +33,6 @@ def buildReport():
             data = {'ticker': stock, 'percent_change': predictPercentChange(stock)}
             print(data)
             writer.writerow(data)
-            break;
-
 
 def predictPercentChange(stock_name):
     data_source = f'StockData/{stock_name}.csv'
